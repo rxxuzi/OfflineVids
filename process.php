@@ -10,7 +10,7 @@ if (isset($_POST['url']) && isset($_POST['format'])) {
     $url = escapeshellarg($_POST['url']);
     $format = escapeshellarg($_POST['format']);
 
-    $interpreterPath = "python";
+    $interpreterPath = "C:\Users\Dot_c\AppData\Local\Microsoft\WindowsApps\python3.exe";
 
     $command = "$interpreterPath ./python/download.py $url $format 2>&1";
     $output = shell_exec($command);

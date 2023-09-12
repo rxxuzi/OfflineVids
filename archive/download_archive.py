@@ -1,23 +1,17 @@
 import os
 import sys
 import yt_dlp
-import json
-
-# 進捗情報の保存先を定義
-PROGRESS_FILE = "./python/progress.json"
-
-def update_progress(percentage):
-    with open(PROGRESS_FILE, "w") as f:
-        f.write(json.dumps({"progress": percentage}))
-        f.close()
+import requests
 
 def download_video(url, format):
 
     def hook(d):
         if d['status'] == 'downloading':
-            # 進捗率を取得してファイルに書き込む
-            p = d['_percent_str'].replace('%', '')
-            update_progress(float(p))
+            # 進捗率を計算する (0から100の間)
+            progress = int(d['_percent_str'].rstrip('%'))
+
+            # 進捗情報をPOST
+            requests.post('http://your_php_server_address/progress_api.php', data={'progress': progress})
 
         if d['status'] == 'finished':
             # 出力ファイルの拡張子を設定
@@ -27,10 +21,6 @@ def download_video(url, format):
             filename = filename.rsplit('.f', 1)[0]  # ここで品質コードを削除
             filename += '.' + ext  # 正しい拡張子を追加
             print("\n" + filename)
-            # 進捗を100%に設定
-            update_progress(100.0)
-
-
 
     if format == "mp3":
         postprocessors = [{
@@ -57,8 +47,6 @@ def download_video(url, format):
 
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         ydl.download([url])
-        # ダウンロード終了後、進捗をリセット
-        update_progress(0)
 
 if __name__ == "__main__":
     url = sys.argv[1]
