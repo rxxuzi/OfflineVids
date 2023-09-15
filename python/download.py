@@ -12,25 +12,21 @@ def update_progress(percentage):
         f.close()
 
 def download_video(url, format):
-
     def hook(d):
         if d['status'] == 'downloading':
-            # 進捗率を取得してファイルに書き込む
+            # Retrieve the rate of progress and write it to a file
             p = d['_percent_str'].replace('%', '')
             update_progress(float(p))
-
         if d['status'] == 'finished':
-            # 出力ファイルの拡張子を設定
+            # Set output file extension
             ext = 'mp3' if format == 'mp3' else 'mp4'
-            # ファイル名から品質コード部分を削除
+            # Remove quality code portion from file name
             filename = d['filename'].rsplit('.', 1)[0]
-            filename = filename.rsplit('.f', 1)[0]  # ここで品質コードを削除
-            filename += '.' + ext  # 正しい拡張子を追加
+            filename = filename.rsplit('.f', 1)[0]  # Delete quality code here
+            filename += '.' + ext  # Add correct extension
             print("\n" + filename)
-            # 進捗を100%に設定
+            # Set progress to 100%.
             update_progress(100.0)
-
-
 
     if format == "mp3":
         postprocessors = [{
@@ -57,7 +53,7 @@ def download_video(url, format):
 
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         ydl.download([url])
-        # ダウンロード終了後、進捗をリセット
+        # Reset progress after download is complete
         update_progress(0)
 
 if __name__ == "__main__":

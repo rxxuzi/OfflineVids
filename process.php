@@ -1,4 +1,7 @@
 <?php
+session_start();
+
+$_SESSION['from_process'] = true;
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -42,5 +45,4 @@ if (isset($_POST['url']) && isset($_POST['format'])) {
         echo "エラーが発生しました: " . htmlspecialchars($output); // エラーメッセージも表示
     }
 }
-
 
