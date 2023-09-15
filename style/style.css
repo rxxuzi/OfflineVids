@@ -1,48 +1,49 @@
 /* style.css */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap');
+
+:root {
+    --basic-height: 3em;
+}
 
 body {
     min-height: 100vh;
     font-family: "Inter", "Inter UI", Arial, serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #275EFE;
-    color: #111;
-    margin: 0; /* 余白を削除 */
-    padding: 0; /* 余白を削除 */
+    background: #3e3e3e;
+    background: linear-gradient(35deg, aqua, #275EFE);
+    color: #275EFE;
 }
 
-h1 {
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-input[type="text"], select {
-    padding: 0.5rem;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-input[type="submit"] {
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-    background-color: #fff;
-    border: none;
-    border-radius: 5px;
+select {
+    /* Reset */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: 0;
+    outline: 0;
+    font: inherit;
+    /* Personalize */
+    width: 10em;
+    height: 3em;
+    padding: 0 4em 0 1em;
+    background: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Caret_down_font_awesome_whitevariation.svg) no-repeat right 0.8em center/1.4em, linear-gradient(to left, rgba(255, 255, 255, 0.3) 3em, rgba(255, 255, 255, 0.2) 3em);
+    color: white;
+    border-radius: 0.25em;
+    box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
     cursor: pointer;
-    transition: background-color 0.3s;
+    flex: 1;
+    /* <option> colors */
+    /* Remove focus outline */
+    /* Remove IE arrow */
 }
-
-input[type="submit"]:hover {
-    background-color: #ddd;
+select option {
+    color: inherit;
+    background-color: #444;
+}
+select:focus {
+    outline: none;
+}
+select::-ms-expand {
+    display: none;
 }
 
 progress {
@@ -53,4 +54,137 @@ progress {
 
 #download-link {
     margin-top: 1rem;
+}
+
+
+/* BUTTON */
+
+
+button {
+    /* Reset */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: 0;
+    outline: 0;
+    font: inherit;
+    /* Personalize */
+    width: 10em;
+    height: 3em;
+    /*padding: 0 4em 0 1em;*/
+    background: linear-gradient(to left, rgba(255, 255, 255, 0.3) 3em, rgba(255, 255, 255, 0.2));
+    color: white;
+    border-radius: 0.25em;
+    box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+.check-svg {
+    -webkit-animation: svgScale 0.5s ease-in-out;
+    animation: svgScale 0.5s ease-in-out;
+}
+.download-arrow {
+    transition: transform 0.2s linear;
+}
+button:hover .download-arrow {
+    transform: translate(0, 3px);
+}
+
+/*submit*/
+.submit {
+    width: 16em;
+    height: 5em;
+    background: #275EFE;
+    border: none;
+    font-size: 1.5em;
+    outline: none;
+    transition: letter-spacing 0.3s ease, transform 0.3s ease;
+    animation-duration: 0.6s; /* jellyアニメーションの期間 */
+    background: linear-gradient(to left, rgba(255, 255, 255, 0.3) 3em, rgba(255, 255, 255, 0.2));
+    color: white;
+    border-radius: 0.25em;
+    box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.submit:hover {
+    letter-spacing: 2px;
+}
+
+.submit:active {
+    animation-name: jelly;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+@-webkit-keyframes jelly {
+    25% {
+        transform: scale(0.9, 1.1);
+    }
+    50% {
+        transform: scale(1.1, 0.9);
+    }
+    75% {
+        transform: scale(0.95, 1.05);
+    }
+    100% {
+        transform: scale(1, 1);
+    }
+}
+@keyframes jelly {
+    25% {
+        transform: scale(0.9, 1.1);
+    }
+    50% {
+        transform: scale(1.1, 0.9);
+    }
+    75% {
+        transform: scale(0.95, 1.05);
+    }
+    100% {
+        transform: scale(1, 1);
+    }
+}
+
+/* Title Styling */
+h1 {
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 5rem;
+    color: white;
+}
+
+form{
+    max-width: 75%;
+}
+
+/* Input Group Styling */
+.input-group {
+    display: flex;
+    justify-content: center; /* Center the elements */
+    align-items: center;
+    width: 100%;
+    gap: 1em; /* Gives space between the input and select */
+}
+
+/* Adjust the width ratio of input and select to be 5:1 */
+form input[type="text"] {
+    flex: 4; /* 4 parts of the space */
+    width: auto; /* Set to auto so flex can determine the width */
+}
+
+select {
+    flex: 1; /* 1 part of the space */
+    width: auto; /* Set to auto so flex can determine the width */
+}
+
+/* Adjust the submit button's size */
+.submit {
+    width: 10em; /* Taking up roughly the same width as the combined input and select elements minus the gap */
+    margin-top: 1em;
+    height: 3em;; /* Adjusted height */
+}
+
+/* Add transition for smoothness */
+form input[type="text"], select , #url{
+    transition: box-shadow 0.3s ease;
+    height: var(--basic-height);
 }

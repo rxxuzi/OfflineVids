@@ -9,11 +9,18 @@ error_reporting(E_ALL);
 
 set_time_limit(0);
 
+$config = json_decode(file_get_contents('config.json'), true);
+$interpreterPath = $config['interpreter_path'];
+
 if (isset($_POST['url']) && isset($_POST['format'])) {
     $url = escapeshellarg($_POST['url']);
-    $format = escapeshellarg($_POST['format']);
+    // URLのバリデーション
+    if (!filter_var($url, FILTER_VALIDATE_URL) || !preg_match('/^https?:\/\/.+/', $url)) {
+        echo "不正なURLです。";
+        exit;  // URLが無効の場合、スクリプトの実行を停止
+    }
 
-    $interpreterPath = "C:\Users\Dot_c\AppData\Local\Microsoft\WindowsApps\python3.exe";
+    $format = escapeshellarg($_POST['format']);
 
     $command = "$interpreterPath ./python/download.py $url $format 2>&1";
     $output = shell_exec($command);
@@ -24,7 +31,6 @@ if (isset($_POST['url']) && isset($_POST['format'])) {
     if ($output !== null) {
         $output = trim($output);
     }
-
 
     // Windowsの場合、パスのスラッシュの方向を変更する
     $corrected_output = str_replace('\\', '/', $output);

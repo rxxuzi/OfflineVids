@@ -2,6 +2,7 @@ import os
 import sys
 import yt_dlp
 import json
+import time
 
 # 進捗情報の保存先を定義
 PROGRESS_FILE = "./python/progress.json"
@@ -41,7 +42,7 @@ def download_video(url, format):
 
     ydl_opts = {
             'format': 'bestaudio' if format == 'mp3' else 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best',
-            'outtmpl': os.path.abspath('./python/downloads/%(id)s.%(ext)s'),  # full path
+            'outtmpl': os.path.abspath('./python/downloads/%(id)s.%(ext)s'),  # full path based on video id
             'postprocessors': postprocessors,
             'quiet': True,      # Make yt_dlp quiet
             'no_warnings': True, # Do not print out warnings
@@ -55,6 +56,35 @@ def download_video(url, format):
         ydl.download([url])
         # Reset progress after download is complete
         update_progress(0)
+
+    info_dict = ydl.extract_info(url, download=False)
+    video_title = info_dict.get('title', None)
+    video_id = info_dict.get('id', None)
+    file_path = os.path.abspath(f'./python/downloads/{video_id}.{format}')
+    file_size = os.path.getsize(file_path) if os.path.exists(file_path) else 0
+    current_time = time.time()  # 現在のタイムスタンプを取得
+
+    # 以前の情報を読み込む
+    title_json_path = './python/meta/meta.json'
+    if os.path.exists(title_json_path):
+        with open(title_json_path, 'r') as f:
+            data = json.load(f)
+    else:
+        data = []
+
+    # 新しい情報を追加
+    data.append({
+        'id': video_id,
+        'title': video_title,
+        'byte': file_size,
+        'time': current_time,
+        'url': url
+    })
+
+    # 更新された情報をファイルに保存
+    with open(title_json_path, 'w') as f:
+        json.dump(data, f, indent=4)
+
 
 if __name__ == "__main__":
     url = sys.argv[1]
