@@ -48,6 +48,7 @@ if (!isset($_SESSION['from_process'])) {
 
 <div>
     <progress value="0" max="100" id="progress"></progress>
+    <p id="progress-text"></p>
 </div>
 
 <div id="offline">

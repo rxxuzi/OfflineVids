@@ -1,102 +1,155 @@
-/* style.css */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap');
 
 :root {
     --basic-height: 3em;
 }
 
-body {
-    min-height: 100vh;
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
     font-family: "Inter", "Inter UI", Arial, serif;
-    background: #3e3e3e;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;
     background: linear-gradient(35deg, aqua, #275EFE);
     color: #275EFE;
 }
 
+h1 {
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 5rem;
+    color: white;
+}
+
+form {
+    width: 80%;
+    max-width: 1000px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.input-group {
+    display: flex;
+    width: 100%;
+    gap: 1em;
+    justify-content: space-between;
+}
+
+form select, #url {
+    transition: box-shadow 0.3s ease;
+    height: var(--basic-height);
+    border-radius: 0.25em;
+    box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
+    color: white;
+    cursor: pointer;
+}
+
+form input[type="text"], select, #url {
+    transition: box-shadow 0.3s ease;
+    height: var(--basic-height);
+    border-radius: 0.25em;
+    box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
+    color: black;
+    cursor: text;
+}
+
+form input[type="text"] {
+    flex: 4;
+    width: auto;
+}
+
+/* URL input*/
+#url {
+    background : linear-gradient(to left, rgba(255, 255, 255, 0.5) 3em, rgba(255, 255, 255, 0.4)); /* 他のテキストボックスやセレクトボックスと同じ背景色に */
+    color: black; /* テキストの色を白に */
+    border-radius: 0.25em;
+    box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2); /* 他のエレメントと同じような影を追加 */
+    border: none; /* デフォルトの境界線を削除 */
+    padding: 0.5em 1em; /* パディングを追加してテキストがエレメントの端に近づきすぎないように */
+    transition: box-shadow 0.3s ease; /* ホバーやフォーカス時の遷移を滑らかに */
+}
+
+#url:focus {
+    box-shadow: 0 0 1.5em 0 rgba(0, 0, 0, 0.3); /* フォーカス時の影の強調 */
+    outline: none; /* デフォルトのアウトラインを削除 */
+}
+
 select {
-    /* Reset */
+    flex: 1;
+    width: auto;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
     border: 0;
     outline: 0;
     font: inherit;
-    /* Personalize */
-    width: 10em;
-    height: 3em;
-    padding: 0 4em 0 1em;
     background: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Caret_down_font_awesome_whitevariation.svg) no-repeat right 0.8em center/1.4em, linear-gradient(to left, rgba(255, 255, 255, 0.3) 3em, rgba(255, 255, 255, 0.2) 3em);
-    color: white;
-    border-radius: 0.25em;
-    box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
-    cursor: pointer;
-    flex: 1;
-    /* <option> colors */
-    /* Remove focus outline */
-    /* Remove IE arrow */
 }
+
 select option {
     color: inherit;
     background-color: #444;
 }
+
 select:focus {
     outline: none;
 }
+
 select::-ms-expand {
     display: none;
 }
 
-progress {
-    width: 100%;
-    height: 20px;
-    margin-top: 1rem;
-}
-
-#download-link {
-    margin-top: 1rem;
-}
-
-
-/* BUTTON */
-
-
-button {
-    /* Reset */
+button, .submit {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
     border: 0;
     outline: 0;
     font: inherit;
-    /* Personalize */
-    width: 10em;
-    height: 3em;
-    /*padding: 0 4em 0 1em;*/
-    background: linear-gradient(to left, rgba(255, 255, 255, 0.3) 3em, rgba(255, 255, 255, 0.2));
-    color: white;
     border-radius: 0.25em;
     box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
     cursor: pointer;
+    background: linear-gradient(to left, rgba(255, 255, 255, 0.3) 3em, rgba(255, 255, 255, 0.2));
 }
+
+.submit{
+    margin-top: 2em;
+}
+
+button {
+    width: 10em;
+    height: 3em;
+    color: white;
+}
+
 .check-svg {
     -webkit-animation: svgScale 0.5s ease-in-out;
     animation: svgScale 0.5s ease-in-out;
 }
+
 .download-arrow {
     transition: transform 0.2s linear;
 }
+
 button:hover .download-arrow {
     transform: translate(0, 3px);
 }
 
-/*submit*/
 .submit {
     width: 16em;
-    height: 5em;
-    background: #275EFE;
+    height: 4em;
     border: none;
     font-size: 1.5em;
     outline: none;
+    font-family: 'Montserrat', sans-serif;
     transition: letter-spacing 0.3s ease, transform 0.3s ease;
     animation-duration: 0.6s; /* jellyアニメーションの期間 */
     background: linear-gradient(to left, rgba(255, 255, 255, 0.3) 3em, rgba(255, 255, 255, 0.2));
@@ -112,7 +165,6 @@ button:hover .download-arrow {
 
 .submit:active {
     animation-name: jelly;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 @-webkit-keyframes jelly {
@@ -129,6 +181,7 @@ button:hover .download-arrow {
         transform: scale(1, 1);
     }
 }
+
 @keyframes jelly {
     25% {
         transform: scale(0.9, 1.1);
@@ -142,49 +195,4 @@ button:hover .download-arrow {
     100% {
         transform: scale(1, 1);
     }
-}
-
-/* Title Styling */
-h1 {
-    text-align: center;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 5rem;
-    color: white;
-}
-
-form{
-    max-width: 75%;
-}
-
-/* Input Group Styling */
-.input-group {
-    display: flex;
-    justify-content: center; /* Center the elements */
-    align-items: center;
-    width: 100%;
-    gap: 1em; /* Gives space between the input and select */
-}
-
-/* Adjust the width ratio of input and select to be 5:1 */
-form input[type="text"] {
-    flex: 4; /* 4 parts of the space */
-    width: auto; /* Set to auto so flex can determine the width */
-}
-
-select {
-    flex: 1; /* 1 part of the space */
-    width: auto; /* Set to auto so flex can determine the width */
-}
-
-/* Adjust the submit button's size */
-.submit {
-    width: 10em; /* Taking up roughly the same width as the combined input and select elements minus the gap */
-    margin-top: 1em;
-    height: 3em;; /* Adjusted height */
-}
-
-/* Add transition for smoothness */
-form input[type="text"], select , #url{
-    transition: box-shadow 0.3s ease;
-    height: var(--basic-height);
 }
