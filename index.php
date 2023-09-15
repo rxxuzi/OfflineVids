@@ -45,10 +45,8 @@ if (!isset($_SESSION['from_process'])) {
     <input class="submit" type="submit" value="OFFLINE!">
 </form>
 
-
-<div>
+<div class="pgv">
     <progress value="0" max="100" id="progress"></progress>
-    <p id="progress-text"></p>
 </div>
 
 <div id="offline">
@@ -59,24 +57,27 @@ if (isset($_GET['file'])) {
 
     // タイトル情報をJSONファイルから取得
     $json_path = './python/meta/meta.json';
-    $title_data = json_decode(file_get_contents($json_path), true);
+    $meta_json = json_decode(file_get_contents($json_path), true);
     $video_id = pathinfo($file, PATHINFO_FILENAME);
+    $meta_data = null;
 
     $name = '';
-    foreach ($title_data as $video) {
+    foreach ($meta_json as $video) {
         if ($video['id'] === $video_id) {
             $name = $video['title'];
+            $meta_data = $video;
             break;
         }
     }
 
     if ($_GET['format'] === "mp4") {
-        echo "<video width='320' height='240' controls><source src='$file' type='video/mp4'>動画はサポートされていません</video>";
+        echo "<video width='320' height='180' controls><source src='$file' type='video/mp4'>動画はサポートされていません</video>";
     } else {
         echo "<audio controls><source src='$file' type='audio/mpeg'>音声はサポートされていません</audio>";
     }
 
-    echo "<a href='$file' download='$name'>
+    echo "
+        <a href='$file' download='$name'>
         <button>
             <!-- Download Icon -->
             <svg class='download-icon' width='18' height='22' viewBox='0 0 18 22' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -85,7 +86,8 @@ if (isset($_GET['file'])) {
             </svg>
             Download
         </button>
-    </a>";
+        </a>
+    ";
 
     $size = [];
     $size[0] = filesize($file);
@@ -112,6 +114,10 @@ if (isset($_GET['file'])) {
     }else{
         echo "<br>File size $size[0] bytes";
     }
+
+    $id = $meta_data['id'];
+    $id = hash('sha256', $id);
+    echo "<br>ID : $id";
 }
 ?>
 </div>

@@ -12,13 +12,11 @@ set_time_limit(0);
 $config = json_decode(file_get_contents('config.json'), true);
 $interpreterPath = $config['interpreter_path'];
 
+if (!filter_var($_POST['url'], FILTER_VALIDATE_URL)){
+    echo "Invalid URL. Please enter a correct URL.<br>";
+}
 if (isset($_POST['url']) && isset($_POST['format'])) {
     $url = escapeshellarg($_POST['url']);
-    // URLのバリデーション
-    if (!filter_var($url, FILTER_VALIDATE_URL) || !preg_match('/^https?:\/\/.+/', $url)) {
-        echo "不正なURLです。";
-        exit;  // URLが無効の場合、スクリプトの実行を停止
-    }
 
     $format = escapeshellarg($_POST['format']);
 

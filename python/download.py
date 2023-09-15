@@ -65,12 +65,20 @@ def download_video(url, format):
     current_time = time.time()  # 現在のタイムスタンプを取得
 
     # 以前の情報を読み込む
-    title_json_path = './python/meta/meta.json'
-    if os.path.exists(title_json_path):
-        with open(title_json_path, 'r') as f:
-            data = json.load(f)
+    meta_json_path = './python/meta/meta.json'
+    data = []
+    if os.path.exists(meta_json_path):
+        with open(meta_json_path, 'r') as f:
+            file_content = f.read()
+            if file_content:  # JSONファイルが空でない場合
+                try:
+                    data = json.loads(file_content)
+                except json.JSONDecodeError:
+                    print("Error: Invalid JSON content in the file.")
     else:
+        # ファイルが存在しない場合、初期値として空のリストを設定
         data = []
+
 
     # 新しい情報を追加
     data.append({
@@ -82,7 +90,7 @@ def download_video(url, format):
     })
 
     # 更新された情報をファイルに保存
-    with open(title_json_path, 'w') as f:
+    with open(meta_json_path, 'w') as f:
         json.dump(data, f, indent=4)
 
 

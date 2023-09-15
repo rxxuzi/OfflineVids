@@ -7,7 +7,14 @@ function checkProgress() {
         console.log("Current Progress: " + progress); // デバッグ用
         document.getElementById("progress").value = progress;
 
-        progressText.innerText = Math.min(progress, 100) + "%";
+        if(progressText !== null){
+            progressText.innerText = Math.min(progress, 100) + "%";
+            if (progress === 100) {
+                progressText.innerText = "Done!";
+            }else if (progress === 0){
+                progressText.innerText = "";
+            }
+        }
 
         if (progress < 100) {
             setTimeout(checkProgress, 1000);

@@ -92,11 +92,12 @@ select {
     outline: 0;
     font: inherit;
     background: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Caret_down_font_awesome_whitevariation.svg) no-repeat right 0.8em center/1.4em, linear-gradient(to left, rgba(255, 255, 255, 0.3) 3em, rgba(255, 255, 255, 0.2) 3em);
-}
 
+}
 select option {
     color: inherit;
-    background-color: #444;
+    background-color: #555;
+
 }
 
 select:focus {
@@ -167,6 +168,14 @@ button:hover .download-arrow {
     animation-name: jelly;
 }
 
+.pgv{
+    /*display: flex;*/
+    /*width: 100%;*/
+    gap: 1em;
+    /*justify-content: space-between;*/
+}
+
+/* animation */
 @-webkit-keyframes jelly {
     25% {
         transform: scale(0.9, 1.1);
