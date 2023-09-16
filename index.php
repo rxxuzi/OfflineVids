@@ -1,34 +1,16 @@
-<?php
-session_start();
-
-// config.json を読み込む
-$config = json_decode(file_get_contents('config.json'), true);
-
-// セッション変数をチェック
-if (!isset($_SESSION['from_process'])) {
-    // auto_cleanup が true なら、downloads ディレクトリのファイルを削除する
-    if (isset($config['auto_cleanup']) && $config['auto_cleanup'] === "true") {
-        $files = glob('./python/downloads/*'); // downloads ディレクトリのファイルをすべて取得
-        foreach ($files as $file) {
-            if (is_file($file)) {
-                unlink($file);  // ファイルを削除
-            }
-        }
-    }
-} else {
-    // セッション変数をリセット
-    unset($_SESSION['from_process']);
-}
-?>
-
+<?php session_start(); ?>
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>online video downloader</title>
+    <title>OFFLINE VIDS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--    SCRIPTS     -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!--      CSS       -->
     <link rel="stylesheet" href="style/style.css">
     <link rel="stylesheet" href="style/progress.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 </head>
 <body>
 
@@ -137,9 +119,6 @@ if (isset($_GET['file'])) {
     echo "<br>Name : $name";
 }
 ?>
-</div>
-<div class='download'>
-
 </div>
 
 </body>

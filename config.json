@@ -1,3 +1,5 @@
 {
-  "auto_cleanup": "false"
+  "auto_cleanup": "false",
+  "cleanup_interval" : 300,
+  "interpreter_path" : "python"
 }
