@@ -2,6 +2,8 @@
 var $progress = $(".progress"),
     $bar = $(".progress-bar"),
     $text = $(".progress-text");
+// submitボタン
+const $submit = $(".submit");
 
 // 各色のしきい値
 const cb = {
@@ -11,6 +13,8 @@ const cb = {
     green: 75,
     blue: 100
 };
+
+let isSuccessed = false;
 
 // パーセンテージの初期値
 var percent = 0;
@@ -25,18 +29,23 @@ clear = () => {
 update = function() {
 
     console.log("Updating with percent: ", percent);  // デバッグ用のログを追加
-    $text.find("em").text( percent + "%" );
 
-    // テキストの更新
-    $text.find("em").text(percent + "%");
-
+    if (percent === 0 ){
+        $text.find("em").text("None");
+    }else{
+        $progress.fadeIn();
+        $text.find("em").text( percent + "%" );
+    }
 
     // 進行状況のパーセンテージに基づいて色を更新
     if (percent >= cb["blue"]) {
+        isSuccessed = true;
         percent = 100;
         $progress.addClass("progress--complete");
         $bar.addClass("progress-bar--blue");
         $text.find("em").text("Complete");
+        console.log("Complete");
+
     } else {
         if (percent >= cb["green"]) {
             $bar.addClass("progress-bar--green");
@@ -49,8 +58,14 @@ update = function() {
         }
     }
 
+    if (isSuccessed){
+        setTimeout(() => {
+            $progress.fadeOut();
+        }, 3000); // 3秒後に実行
+    }
+
     // プログレスバーの幅を更新
-    $bar.css({ width: percent + "%" });
+    $bar.css({ width: percent + "%", opacity: 1 });
 };
 
 let tmp = 0;
@@ -65,9 +80,6 @@ function fetchAndUpdate() {
         }else {
             tmp = percent;
         }
-        if(percent > 100){
-            percent = 100;
-        }
 
         update();
     }).fail(function(jqXHR, textStatus, errorThrown) {
@@ -80,6 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // すべてのクラスをクリア
     clear();
 
+    isSuccessed = false;
     // 初回の取得
     fetchAndUpdate();
 

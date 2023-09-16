@@ -27,8 +27,8 @@ if (!isset($_SESSION['from_process'])) {
     <meta charset="UTF-8">
     <title>online video downloader</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="progress.js"></script>
     <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="style/progress.css">
 </head>
 <body>
 
@@ -52,12 +52,10 @@ if (!isset($_SESSION['from_process'])) {
     </span>
     </b>
 </div>
-<link rel="stylesheet" href="style/progress.css">
 
-
+<script src="animation.js"></script>
 
 <div id="offline">
-
 <?php
 if (isset($_GET['file'])) {
     $file = $_GET['file'];
@@ -78,14 +76,23 @@ if (isset($_GET['file'])) {
     }
 
     if ($_GET['format'] === "mp4") {
-        echo "<video width='320' height='180' controls><source src='$file' type='video/mp4'>動画はサポートされていません</video>";
+        echo "<video width='320' height='180' controls class='download-data'><source src='$file' type='video/mp4'>動画はサポートされていません</video>";
     } else {
-        echo "<audio controls><source src='$file' type='audio/mpeg'>音声はサポートされていません</audio>";
+        echo "<audio controls class='download-data'><source src='$file' type='audio/mpeg'>音声はサポートされていません</audio>";
     }
 
     echo "
+    <script>
+    $(document).ready(function() {
+    // videoの音量を50%に設定
+    $('.download-data').prop('volume', 0.5);
+    });
+    </script>
+    ";
+
+    echo "
         <a href='$file' download='$name'>
-        <button>
+        <button class='donload-btn'>
             <!-- Download Icon -->
             <svg class='download-icon' width='18' height='22' viewBox='0 0 18 22' fill='none' xmlns='http://www.w3.org/2000/svg'>
                 <path class='download-arrow' d='M13 9L9 13M9 13L5 9M9 13V1' stroke='#F2F2F2' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
@@ -125,6 +132,9 @@ if (isset($_GET['file'])) {
     $id = $meta_data['id'];
     $id = hash('sha256', $id);
     echo "<br>ID : $id";
+
+    $name = $meta_data['title'];
+    echo "<br>Name : $name";
 }
 ?>
 </div>
