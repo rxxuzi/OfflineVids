@@ -45,9 +45,16 @@ if (!isset($_SESSION['from_process'])) {
     <input class="submit" type="submit" value="OFFLINE!">
 </form>
 
-<div class="pgv">
-    <progress value="0" max="100" id="progress"></progress>
+<div class="progress">
+    <b class="progress-bar">
+    <span class="progress-text">
+      Progress: <em>0%</em>
+    </span>
+    </b>
 </div>
+<link rel="stylesheet" href="style/progress.css">
+
+
 
 <div id="offline">
 
@@ -127,7 +134,3 @@ if (isset($_GET['file'])) {
 
 </body>
 </html>
-
-
-
-

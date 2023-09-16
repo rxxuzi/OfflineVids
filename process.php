@@ -13,7 +13,10 @@ $config = json_decode(file_get_contents('config.json'), true);
 $interpreterPath = $config['interpreter_path'];
 
 if (!filter_var($_POST['url'], FILTER_VALIDATE_URL)){
-    echo "Invalid URL. Please enter a correct URL.<br>";
+    echo "
+    <h1>ERROR</h1>
+Invalid URL. Please enter a correct URL.<br>";
+    exit;
 }
 if (isset($_POST['url']) && isset($_POST['format'])) {
     $url = escapeshellarg($_POST['url']);

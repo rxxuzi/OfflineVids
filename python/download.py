@@ -64,6 +64,8 @@ def download_video(url, format):
     file_size = os.path.getsize(file_path) if os.path.exists(file_path) else 0
     current_time = time.time()  # 現在のタイムスタンプを取得
 
+    file_type = 'audio' if format == 'mp3' else 'video'
+
     # 以前の情報を読み込む
     meta_json_path = './python/meta/meta.json'
     data = []
@@ -78,6 +80,7 @@ def download_video(url, format):
     else:
         # ファイルが存在しない場合、初期値として空のリストを設定
         data = []
+
 
 
     # 新しい情報を追加
