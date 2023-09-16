@@ -95,7 +95,10 @@ def download_video(url, format):
 
 
 if __name__ == "__main__":
+    start_time = time.time()  # start
     url = sys.argv[1]
     format = sys.argv[2]
     download_video(url, format)
+    end_time = time.time()  # end
+
 
