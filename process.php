@@ -10,12 +10,14 @@ error_reporting(E_ALL);
 set_time_limit(0);
 
 $config_content = file_get_contents('config.json');
+
 if ($config_content === false) {
     error_view("config.jsonの読み取り", "Failed to read config.json.");
     die();
 }
 
 $config = json_decode($config_content, true);
+
 if (json_last_error() !== JSON_ERROR_NONE) {
     error_view("config.jsonの解析", "Failed to parse config.json: " . json_last_error_msg());
     die();
@@ -23,18 +25,16 @@ if (json_last_error() !== JSON_ERROR_NONE) {
 
 $interpreterPath = $config['interpreter_path'];
 
-
-
 if (!filter_var($_POST['url'], FILTER_VALIDATE_URL)){
     error_view("不正なURL" ,"Invalid URL. Please enter a correct URL." );
     exit;
 }
+
 if (isset($_POST['url']) && isset($_POST['format'])) {
 
     $start_time = microtime(true);
 
     $url = escapeshellarg($_POST['url']);
-
     $format = escapeshellarg($_POST['format']);
 
     $command = "$interpreterPath ./python/download.py $url $format 2>&1";
@@ -112,7 +112,7 @@ function page_style(){
     <style>
     body{
         color: #e0e0e0;
-        background: linear-gradient(35deg, aqua, #275EFE);
+        background: #275EFE;
     }
     
     .action{

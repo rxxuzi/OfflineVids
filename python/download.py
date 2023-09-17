@@ -10,7 +10,6 @@ PROGRESS_FILE = "./python/progress.json"
 def update_progress(percentage):
     with open(PROGRESS_FILE, "w") as f:
         f.write(json.dumps({"progress": percentage}))
-        f.close()
 
 def download_video(url, format):
     def hook(d):
@@ -64,9 +63,7 @@ def download_video(url, format):
     file_size = os.path.getsize(file_path) if os.path.exists(file_path) else 0
     current_time = time.time()  # Get current timestamp
 
-    file_type = 'audio' if format == 'mp3' else 'video'
 
-    # Load previous information
     meta_json_path = './python/meta/meta.json'
     data = []
     if os.path.exists(meta_json_path):
@@ -82,6 +79,7 @@ def download_video(url, format):
         data = []
 
 
+    file_type = 'audio' if format == 'mp3' else 'video'
 
     # Add new information
     data.append({
@@ -89,7 +87,8 @@ def download_video(url, format):
         'title': video_title,
         'byte': file_size,
         'time': current_time,
-        'url': url
+        'url': url,
+        'type': file_type
     })
 
     # Keep updated information on file

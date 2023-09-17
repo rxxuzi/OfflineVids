@@ -1,4 +1,9 @@
-<?php session_start(); ?>
+<?php
+session_start();
+$config_json = "./config.json";
+$config = json_decode(file_get_contents($config_json), true);
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,15 +12,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!--    SCRIPTS     -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!--      CSS       -->
+<!--    STYLES     -->
     <link rel="stylesheet" href="style/style.css">
     <link rel="stylesheet" href="style/progress.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <style>
+        p {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+    </style>
 </head>
 <body>
 <?php
 
-$config = json_decode(file_get_contents('config.json'), true);
+global $config;
 $title = $config['title'];
 $SVG = "./style/offline-vids.svg";
 
@@ -31,6 +42,7 @@ if ($title === 'true') {
 
 ?>
 
+<!--    SEARCH FORM     -->
 <form action="process.php" method="post">
     <div class="input-group">
         <input type="text" name="url" id="url" placeholder="URL">
@@ -43,6 +55,7 @@ if ($title === 'true') {
     <input class="submit" type="submit" value="OFFLINE!">
 </form>
 
+<!--    PROGRESS BAR     -->
 <div class="progress">
     <b class="progress-bar">
     <span class="progress-text">
@@ -53,14 +66,15 @@ if ($title === 'true') {
 
 <script src="./script/animation.js"></script>
 
+<!--    DOWNLOAD DATA     -->
 <div id="offline">
 <?php
 if (isset($_GET['file'])) {
     $file = $_GET['file'];
 
-    // タイトル情報をJSONファイルから取得
     $json_path = './python/meta/meta.json';
     $meta_json = json_decode(file_get_contents($json_path), true);
+
     $video_id = pathinfo($file, PATHINFO_FILENAME);
     $meta_data = null;
 
@@ -82,7 +96,7 @@ if (isset($_GET['file'])) {
     echo "
     <script>
     $(document).ready(function() {
-    // videoの音量を50%に設定
+    // video/audio volume set to 50%.
     $('.download-data').prop('volume', 0.5);
     });
     </script>
@@ -113,29 +127,36 @@ if (isset($_GET['file'])) {
         return floor($number * pow(10, $precision)) / pow(10, $precision);
     }
 
+    function view_data($index){
+        $size_unit = ['bytes', 'KB', 'MB', 'GB'];
+
+        global $size;
+        echo "
+        <p>
+            File size : $size[$index]$size_unit[$index]
+        </p>
+        ";
+    }
+
     for ($i = 0; $i < 4; $i++){
         $size[$i] = round_down($size[$i], 2);
     }
 
-    if ($size[3] > 1){
-        echo "<br>File size $size[3] GB";
-    }else if ($size[2] > 1){
-        echo "<br>File size $size[2] MB";
-    }else if ($size[1] > 1){
-        echo "<br>File size $size[1] KB";
-    }else{
-        echo "<br>File size $size[0] bytes";
+    for ($i = sizeof($size) - 1; $i >= 0; $i--){
+        if ($size[$i] > 1 || $i === 0){
+            view_data($i);
+            break;
+        }
     }
 
     $id = $meta_data['id'];
     $id = hash('sha256', $id);
-    echo "<br>ID : $id";
+    echo "<p>ID : $id</p>";
 
     $name = $meta_data['title'];
-    echo "<br>Name : $name";
+    echo "<p>Name : $name</p>";
 }
 ?>
 </div>
-
 </body>
 </html>

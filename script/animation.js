@@ -83,10 +83,12 @@ function fetchAndUpdate() {
 
         update();
     }).fail(function(jqXHR, textStatus, errorThrown) {
-    console.error('Error status:', jqXHR.status);
-    console.error('Error message:', errorThrown.message);
-    console.error('Full response:', jqXHR.responseText);
-});
+        console.error('JSON取得エラー:', {
+            jqXHR: jqXHR,
+            textStatus: textStatus,
+            errorThrown: errorThrown
+        });
+    });
 }
 
 // ページの読み込みが完了したときに実行
@@ -101,3 +103,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // 0.5秒ごとに定期的にJSONから進行状況の値を取得
     setInterval(fetchAndUpdate, 500);
 });
+
+
+document.addEventListener('contextmenu', function(e) {
+    if (e.target.tagName === 'VIDEO' || e.target.tagName === 'AUDIO') {
+        e.preventDefault();
+    }
+});
+

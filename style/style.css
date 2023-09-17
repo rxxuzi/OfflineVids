@@ -152,7 +152,7 @@ button:hover .download-arrow {
     outline: none;
     font-family: 'Montserrat', sans-serif;
     transition: letter-spacing 0.3s ease, transform 0.3s ease;
-    animation-duration: 0.6s; /* jellyアニメーションの期間 */
+    animation-duration: 0.75s; /* jellyアニメーションの期間 */
     background: linear-gradient(to left, rgba(255, 255, 255, 0.3) 3em, rgba(255, 255, 255, 0.2));
     color: white;
     border-radius: 0.25em;
@@ -168,6 +168,9 @@ button:hover .download-arrow {
     animation-name: jelly;
 }
 
+#offline{
+    margin-top: 10px;
+}
 /* animation */
 @-webkit-keyframes jelly {
     25% {

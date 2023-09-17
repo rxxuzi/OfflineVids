@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * Use a cron job to run this script automatically
+ */
+
 $config = json_decode(file_get_contents('config.json'), true);
 
 if (isset($config['auto_cleanup']) && $config['auto_cleanup'] === "true") {
@@ -17,4 +21,4 @@ if (isset($config['auto_cleanup']) && $config['auto_cleanup'] === "true") {
     }
 }
 
-
+?>
