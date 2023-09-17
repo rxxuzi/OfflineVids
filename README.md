@@ -1,6 +1,7 @@
-<img align="center" width="400" src="style/offline-vids.svg" alt="offlineVids">
+<img width="500" src="style/offline-vids.svg" alt="offlineVids">
 
-OfflineVids is a web-based application that provides a user-friendly interface to download videos. It uses a combination of PHP, JavaScript, and other web technologies to achieve smooth user experience and efficient video processing.
+OfflineVids is a web-based application that provides a user-friendly interface to download videos. 
+It uses a combination of PHP, JavaScript, and other web technologies to achieve smooth user experience and efficient video processing.
 
 ## Features
 

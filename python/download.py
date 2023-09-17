@@ -4,7 +4,7 @@ import yt_dlp
 import json
 import time
 
-# 進捗情報の保存先を定義
+# Define where progress information is stored
 PROGRESS_FILE = "./python/progress.json"
 
 def update_progress(percentage):
@@ -62,28 +62,28 @@ def download_video(url, format):
     video_id = info_dict.get('id', None)
     file_path = os.path.abspath(f'./python/downloads/{video_id}.{format}')
     file_size = os.path.getsize(file_path) if os.path.exists(file_path) else 0
-    current_time = time.time()  # 現在のタイムスタンプを取得
+    current_time = time.time()  # Get current timestamp
 
     file_type = 'audio' if format == 'mp3' else 'video'
 
-    # 以前の情報を読み込む
+    # Load previous information
     meta_json_path = './python/meta/meta.json'
     data = []
     if os.path.exists(meta_json_path):
         with open(meta_json_path, 'r') as f:
             file_content = f.read()
-            if file_content:  # JSONファイルが空でない場合
+            if file_content:  # If the JSON file is not empty
                 try:
                     data = json.loads(file_content)
                 except json.JSONDecodeError:
                     print("Error: Invalid JSON content in the file.")
     else:
-        # ファイルが存在しない場合、初期値として空のリストを設定
+        # If the file does not exist, an empty list is set as the initial value
         data = []
 
 
 
-    # 新しい情報を追加
+    # Add new information
     data.append({
         'id': video_id,
         'title': video_title,
@@ -92,7 +92,7 @@ def download_video(url, format):
         'url': url
     })
 
-    # 更新された情報をファイルに保存
+    # Keep updated information on file
     with open(meta_json_path, 'w') as f:
         json.dump(data, f, indent=4)
 

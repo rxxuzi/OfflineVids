@@ -14,10 +14,10 @@ const cb = {
     blue: 100
 };
 
-let isSuccessed = false;
+let isSuccess = false;
 
 // パーセンテージの初期値
-var percent = 0;
+let percent = 0;
 
 // クラスをクリアする関数
 clear = () => {
@@ -39,7 +39,7 @@ update = function() {
 
     // 進行状況のパーセンテージに基づいて色を更新
     if (percent >= cb["blue"]) {
-        isSuccessed = true;
+        isSuccess = true;
         percent = 100;
         $progress.addClass("progress--complete");
         $bar.addClass("progress-bar--blue");
@@ -58,7 +58,7 @@ update = function() {
         }
     }
 
-    if (isSuccessed){
+    if (isSuccess){
         setTimeout(() => {
             $progress.fadeOut();
         }, 3000); // 3秒後に実行
@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // すべてのクラスをクリア
     clear();
 
-    isSuccessed = false;
+    isSuccess = false;
     // 初回の取得
     fetchAndUpdate();
 

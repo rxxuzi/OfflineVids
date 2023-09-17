@@ -9,13 +9,24 @@ error_reporting(E_ALL);
 
 set_time_limit(0);
 
-$config = json_decode(file_get_contents('config.json'), true);
+$config_content = file_get_contents('config.json');
+if ($config_content === false) {
+    error_view("config.jsonの読み取り", "Failed to read config.json.");
+    die();
+}
+
+$config = json_decode($config_content, true);
+if (json_last_error() !== JSON_ERROR_NONE) {
+    error_view("config.jsonの解析", "Failed to parse config.json: " . json_last_error_msg());
+    die();
+}
+
 $interpreterPath = $config['interpreter_path'];
 
+
+
 if (!filter_var($_POST['url'], FILTER_VALIDATE_URL)){
-    echo "
-    <h1>ERROR</h1>
-Invalid URL. Please enter a correct URL.<br>";
+    error_view("不正なURL" ,"Invalid URL. Please enter a correct URL." );
     exit;
 }
 if (isset($_POST['url']) && isset($_POST['format'])) {
@@ -27,10 +38,14 @@ if (isset($_POST['url']) && isset($_POST['format'])) {
     $format = escapeshellarg($_POST['format']);
 
     $command = "$interpreterPath ./python/download.py $url $format 2>&1";
+
     $output = shell_exec($command);
+
     if ($output === null) {
-        die("コマンドの実行に失敗しました。");
+        error_exec($command, "Command execution failed: command does not exist or is not executable.");
+        die();
     }
+
     $lines = explode(PHP_EOL, $output);
     $output = end($lines); // 最後の行だけを取得
 
@@ -59,8 +74,8 @@ if (isset($_POST['url']) && isset($_POST['format'])) {
         exit;  // リダイレクト後にスクリプトの実行を停止
     } else {
         write_log($execution_time, "error");
-        echo "コマンドの実行: " . htmlspecialchars($command) . "<br>"; // コマンドの内容を表示
-        echo "エラーが発生しました: " . htmlspecialchars($output); // エラーメッセージも表示
+        error_exec($command,$output);
+
     }
 }
 
@@ -92,6 +107,43 @@ function write_log($execution_time , $result){
     file_put_contents($log_file, $log_content, FILE_APPEND);
 }
 
-function error_log(){
-
+function page_style(){
+    echo "
+    <style>
+    body{
+        color: #e0e0e0;
+        background: linear-gradient(35deg, aqua, #275EFE);
+    }
+    
+    .action{
+        font-size: 25px;
+    }
+        
+    #command{
+        color: #00ff21;
+        font-size: 19px;
+    }
+    
+    #output , .message{
+        color: white;
+        font-size: 15px;
+    }
+    </style>
+    ";
 }
+function error_exec($command, $output){
+    page_style();
+    echo "<h2 class='action'>コマンドの実行</h2>";
+    echo "<p id='command'>" . htmlspecialchars($command) . "</p><br>"; // コマンドの内容を表示
+
+    echo "<h2>エラーが発生しました: </h2>";
+    echo "<p id='output'>" . htmlspecialchars($output) . "</p><br>"; // エラーメッセージも表示
+}
+
+function error_view($action, $message){
+    page_style();
+
+    echo "<h2 class='action'>" . htmlspecialchars($action) . "</h2>";
+    echo "<p class='message'>" . htmlspecialchars($message) . "</p><br>";
+}
+
