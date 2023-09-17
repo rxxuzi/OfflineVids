@@ -14,11 +14,28 @@
 </head>
 <body>
 
-<h1>Offline Vids</h1>
+<?php
+
+$config = json_decode(file_get_contents('config.json'), true);
+$title = $config['title'];
+$SVG = "./style/offline-vids.svg";
+
+if ($title === 'true') {
+    if(file_exists($SVG)){
+        echo "<object data=$SVG width='514'></object>";
+    }else{
+        echo "<h1>OFFLINE VIDS</h1>";
+    }
+}else{
+    echo "<h1>OFFLINE VIDS</h1>";
+}
+
+?>
 
 <form action="process.php" method="post">
     <div class="input-group">
         <input type="text" name="url" id="url" placeholder="URL">
+
         <select name="format" id="format">
             <option value="mp4">MP4</option>
             <option value="mp3">MP3</option>

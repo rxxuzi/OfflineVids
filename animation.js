@@ -72,7 +72,7 @@ let tmp = 0;
 
 // JSONから進行状況の値を取得し、進行状況を更新する関数
 function fetchAndUpdate() {
-    $.getJSON('python/progress.json', function(data) {
+    $.getJSON('python/progress.json?' + new Date().getTime(), function(data)  {
 
         percent = data.progress; // JSON内の進行状況の値を取得
         if(percent < tmp){
@@ -83,8 +83,10 @@ function fetchAndUpdate() {
 
         update();
     }).fail(function(jqXHR, textStatus, errorThrown) {
-        console.error('JSON取得エラー:', textStatus, errorThrown); // エラーメッセージを表示
-    });
+    console.error('Error status:', jqXHR.status);
+    console.error('Error message:', errorThrown.message);
+    console.error('Full response:', jqXHR.responseText);
+});
 }
 
 // ページの読み込みが完了したときに実行

@@ -90,6 +90,8 @@ function write_log($execution_time , $result){
     }
 
     file_put_contents($log_file, $log_content, FILE_APPEND);
+}
 
+function error_log(){
 
 }
