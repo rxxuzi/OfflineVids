@@ -48,6 +48,7 @@ if ($title === 'true') {
         <input type="text" name="url" id="url" placeholder="URL">
 
         <select name="format" id="format">
+            <option value="default">Default</option>
             <option value="mp4">MP4</option>
             <option value="mp3">MP3</option>
         </select>

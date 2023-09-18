@@ -68,7 +68,6 @@ def download_video(url, format):
     else:
         video_quality = None
 
-#     video_quality = info_dict.get('format', {}).get('format_note', None)  # 例：720p, 1080pなど
     audio_quality = info_dict.get('abr', None)  # 音質（平均ビットレート）
     current_time = time.time()  # Get current timestamp
 
