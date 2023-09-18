@@ -61,6 +61,15 @@ def download_video(url, format):
     video_id = info_dict.get('id', None)
     file_path = os.path.abspath(f'./python/downloads/{video_id}.{format}')
     file_size = os.path.getsize(file_path) if os.path.exists(file_path) else 0
+
+    format_info = info_dict.get('format')
+    if isinstance(format_info, dict):
+        video_quality = format_info.get('format_note', None)
+    else:
+        video_quality = None
+
+#     video_quality = info_dict.get('format', {}).get('format_note', None)  # 例：720p, 1080pなど
+    audio_quality = info_dict.get('abr', None)  # 音質（平均ビットレート）
     current_time = time.time()  # Get current timestamp
 
 
@@ -85,6 +94,8 @@ def download_video(url, format):
     data.append({
         'id': video_id,
         'title': video_title,
+        'video_quality': video_quality,
+        'audio_quality': audio_quality,
         'byte': file_size,
         'time': current_time,
         'url': url,

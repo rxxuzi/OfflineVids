@@ -79,7 +79,7 @@ git clone https://github.com/rxxuzi/OfflineVids.git
 
 2. Run the [SETUP.sh](SETUP.sh) script to set up the required directories and dependencies.
 
-3. Adjust the configurations in [config.json](config.json) as described in the Configuration section above.
+3. Adjust the configurations in [config.json](config/config.json) as described in the Configuration section above.
 
 4. Start your web server and navigate to the project directory.
 

@@ -9,7 +9,8 @@ error_reporting(E_ALL);
 
 set_time_limit(0);
 
-$config_content = file_get_contents('config.json');
+$CONFIG_JSON_PATH = "./config/config.json";
+$config_content = file_get_contents($CONFIG_JSON_PATH);
 
 if ($config_content === false) {
     error_view("config.jsonの読み取り", "Failed to read config.json.");
@@ -49,7 +50,6 @@ if (isset($_POST['url']) && isset($_POST['format'])) {
     $lines = explode(PHP_EOL, $output);
     $output = end($lines); // 最後の行だけを取得
 
-
     if ($output !== null) {
         $output = trim($output);
     }
@@ -75,7 +75,7 @@ if (isset($_POST['url']) && isset($_POST['format'])) {
     } else {
         write_log($execution_time, "error");
         error_exec($command,$output);
-
+        die();
     }
 }
 
@@ -112,7 +112,7 @@ function page_style(){
     <style>
     body{
         color: #e0e0e0;
-        background: #275EFE;
+        background: linear-gradient(35deg, aqua, #275EFE);
     }
     
     .action{

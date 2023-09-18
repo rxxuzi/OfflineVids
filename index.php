@@ -1,6 +1,6 @@
 <?php
 session_start();
-$config_json = "./config.json";
+$config_json = "./config/config.json";
 $config = json_decode(file_get_contents($config_json), true);
 
 ?>
@@ -155,6 +155,17 @@ if (isset($_GET['file'])) {
 
     $name = $meta_data['title'];
     echo "<p>Name : $name</p>";
+
+    $video_quality = $meta_data['video_quality'];
+    $audio_quality = $meta_data['audio_quality'];
+
+    if($video_quality !== null){
+        echo "<p>Video Quality : $video_quality</p>";
+    }
+
+    if($audio_quality !== null){
+        echo "<p>Audio Quality : $audio_quality kbps</p>";
+    }
 }
 ?>
 </div>
